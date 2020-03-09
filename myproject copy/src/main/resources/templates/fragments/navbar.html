@@ -1,0 +1,70 @@
+<nav class="navbar bg navbar-expand-lg navbar-dark"
+     xmlns:th="http://www.thymeleaf.org"
+     xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+     th:fragment="navbar" style="background-color: black">
+
+    <a class="navbar-brand logo ml-1" href="/">Language Learner  </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="ml-2  my-2  nav-item active" sec:authorize="isAuthenticated()">
+                <a style="font-size: 18px;" href="/employees" class="btn  fs-15  text-white bg-transparent btn-lg stretched-link">
+                    IT Employees
+                </a>
+            </li>
+
+
+        </ul>
+        <ul class="navbar-nav ml-auto nav-flex-icons" >
+            <li class="ml-2 my-2 nav-item active" sec:authorize="isAnonymous()">
+                <a style="font-size: 21px; font-family: 'Fredoka One', cursive;" href="/user/login" class="btn  fs-15 text-white bg-transparent btn-lg stretched-link">
+                    Login
+                </a>
+            </li>
+            <li class="ml-2 my-2 nav-item active">
+                <a style="font-size: 21px; font-family: 'Fredoka One', cursive;" href="/" class="btn  fs-15 text-white bg-transparent btn-lg stretched-link">
+                    Main pAge
+                </a>
+            </li>
+            <li class="ml-2 my-2 nav-item active" sec:authorize="isAnonymous()">
+                <a style="font-size: 21px; font-family: 'Fredoka One', cursive;" href="/user/registration" class="btn  fs-15 text-white bg-transparent btn-lg stretched-link">
+                    Registration
+                </a>
+            </li>
+            <li class="ml-2 my-2 nav-item active">
+                <a style="font-size: 21px; font-family: 'Fredoka One', cursive;" href=/"about" class="btn  fs-15 text-white bg-transparent btn-lg stretched-link">
+                    Our Mission
+                </a>
+            </li>
+        </ul>
+        <ul class="navbar-nav nav-flex-icons" sec:authorize="isAuthenticated()">
+            <li class="ml-2 my-2 nav-item active" sec:authorize="hasAuthority('CREATE_EMPLOYEE_PROFILE')">
+                <a href="/employees/register" class="btn text-white">
+                    Create IT Employee Profile
+                </a>
+            </li>
+            <li class="ml-2 my-2 nav-item active dropdown">
+                    <span class="text-white btn"
+                          style="cursor: pointer;" data-toggle="dropdown" href="#"
+                          th:text="${'('+#authentication.getPrincipal().getUser().getName()+' '+#authentication.getPrincipal().getUser().getSurname()+')'}">
+                </span>
+
+                <div class="dropdown-menu mt-2" >
+                    <a class="dropdown-item" href="/user/edit">Edit user profile</a>
+                    <a class="dropdown-item"
+                       sec:authorize="!hasAuthority('CREATE_EMPLOYEE_PROFILE')"
+                       th:href="${'/employees/profile/edit'}" >Edit employee profile</a>
+                    <a class="dropdown-item" href="/logout">Log out</a>
+                </div>
+            </li>
+        </ul>
+
+    </div>
+
+</nav>
+
+
+
